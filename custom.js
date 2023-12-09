@@ -1,6 +1,6 @@
 /** First, initialize reveal */
 
-Reveal.initialize({
+const initialized = Reveal.initialize({
   width: 960,
   height: 700,
   margin: 0.05,
@@ -18,7 +18,7 @@ Reveal.initialize({
 
   autoSlide: 0,
   autoSlideStoppable: true,
-
+  autoplayMedia: true,
   autoAnimateMatcher: SL.deck.AutoAnimate.matcher,
 
   scrollActivationWidth: null,
@@ -37,4 +37,36 @@ Reveal.initialize({
   },
 
   plugins: [RevealZoom, RevealNotes, RevealMarkdown, RevealHighlight],
+});
+
+initialized.then(() => {
+  const abstractDialog = document.querySelector("dialog.abstract");
+  const abstractBtn = document.querySelectorAll("button.abstract");
+  const referencesDialog = document.querySelector("dialog.references");
+  const referencesBtn = document.querySelectorAll("button.references");
+  const essayDialog = document.querySelector("dialog.essay");
+  const essayBtn = document.querySelectorAll("button.essay");
+
+  const showModal = window.sessionStorage.getItem("dairy-viz-modal") || "true";
+  if (showModal === "true") {
+    abstractDialog.showModal();
+  }
+  abstractBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      abstractDialog.showModal();
+    });
+  });
+  referencesBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      referencesDialog.showModal();
+    });
+  });
+  essayBtn.forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      essayDialog.showModal();
+    });
+  });
+  abstractDialog.addEventListener("close", () => {
+    window.sessionStorage.setItem("dairy-viz-modal", "false");
+  });
 });
